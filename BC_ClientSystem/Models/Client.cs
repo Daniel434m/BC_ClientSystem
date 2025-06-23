@@ -14,10 +14,11 @@ namespace BC_ClientSystem.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
+        
         [Display(Name = "Client Code")]
         public string ClientCode { get; set; }
 
         public virtual ICollection<Contact> Contacts { get; set; }
     }
+
 }

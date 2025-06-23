@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BC_ClientSystem.Models.Contact>
+
+@{
+    ViewBag.Title = "Contacts";
+}
+
+<h2>Contacts</h2>
+
+<p>
+    @Html.ActionLink("Create New Contact", "Create")
+</p>
+
+@if (!Model.Any())
+{
+    <p>No contact(s) found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Linked Clients</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model.OrderBy(c => c.Surname))
+            {
+                <tr>
+                    <td>@contact.Surname</td>
+                    <td>@contact.Name</td>
+                    <td>@contact.Email</td>
+                    <td>@string.Join(", ", contact.Clients.Select(cl => cl.Name))</td>
+                    <td>
+                       
+                        @Html.ActionLink("Delete", "Delete", new { id = contact.ContactId }) |
+                        @Html.ActionLink("Unlink All Clients", "UnlinkAllClients", new { id = contact.ContactId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

@@ -17,12 +17,11 @@ namespace BC_ClientSystem.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required, EmailAddress]
         public string Email { get; set; }
 
-        public int ClientId { get; set; }
-        public virtual Client Client { get; set; }
+        public virtual ICollection<Client> Clients { get; set; }
     }
+
 
 }

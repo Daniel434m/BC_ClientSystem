@@ -6,20 +6,29 @@ namespace BC_ClientSystem.DAL
 {
     public class ClientContext : DbContext
     {
-        // ✅ Constructor pointing to "DefaultConnection"
-        public ClientContext() : base("ClientContext")
-        {
-        }
+        public ClientContext() : base("ClientContext") { }
 
-        // ✅ Use DbSet<T> instead of ISet<T> 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            // Avoid pluralization
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            // Configure many-to-many
+            modelBuilder.Entity<Client>()
+                .HasMany(c => c.Contacts)
+                .WithMany(c => c.Clients)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("ClientId");
+                    cs.MapRightKey("ContactId");
+                    cs.ToTable("ClientContacts");
+                });
         }
     }
+
 }
 
 
